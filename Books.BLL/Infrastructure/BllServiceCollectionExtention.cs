@@ -10,9 +10,9 @@ namespace Books.BLL.Infrastructure
     {
         public static IServiceCollection AddMainContext(this IServiceCollection services)
         {
-            return services.AddDbContext<BooksContext>(opt => opt.UseInMemoryDatabase());
+            return services.AddDbContext<BooksContext>(opt => opt.UseInMemoryDatabase("InMemoryDb"));
         }
-
+        
         public static IServiceCollection AddUnitOfWork(this IServiceCollection services)
         {
             return services.AddTransient<IUnitOfWork, UnitOfWork>(provider =>

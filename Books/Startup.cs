@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Books.BLL.Infrastructure;
 using Books.BLL.Interfaces;
 using Books.BLL.Services;
+using Microsoft.Extensions.Hosting;
 
 namespace Books
 {
@@ -27,27 +28,15 @@ namespace Books
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAll",
-                    builder =>
-                    {
-                        builder
-                        .AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials();
-                    });
-            });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddMainContext();
             services.AddUnitOfWork();
             services.AddTransient<IBookService, BookService>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -57,18 +46,15 @@ namespace Books
             app.UseCors("AllowAll");
             app.UseStaticFiles();
 
-            app.UseMvc(routes =>
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
-                    "default",
-                    "{controller=home}/{action=index}/{id?}");
-
-                routes.MapRoute(
-                      "angular",
-                      "{*template}",
-                      new { controller = "Home", action = "Index" });
-
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller}/{action=Index}/{id?}");
             });
+
+
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
