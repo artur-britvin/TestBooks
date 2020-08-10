@@ -1,0 +1,41 @@
+<h2 mat-dialog-title>Add Book</h2>
+<mat-dialog-content class="mat-typography ">
+  <form [formGroup]="bookForm">
+    <div>
+      <mat-form-field class="right-input" appearance="outline">
+        <mat-label>Title</mat-label>
+        <input matInput type="text" formControlName="title">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Author</mat-label>
+        <input matInput type="text" formControlName="author">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="right-input" appearance="outline">
+        <mat-label>Volume of pages</mat-label>
+        <input matInput type="number" formControlName="volumeOfPages">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Country of publication</mat-label>
+        <input matInput type="text" formControlName="countryOfPublication">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Genre</mat-label>
+        <mat-select formControlName="genre">
+          <mat-option *ngFor="let genre of genres | enumToArray" [value]="genres[genre]">{{genre}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-flat-button color="primary" [mat-dialog-close]="true" [disabled]="bookForm.invalid"
+    (click)="onSubmit()">Submit</button>
+  <button mat-flat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

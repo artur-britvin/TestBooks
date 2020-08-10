@@ -1,0 +1,29 @@
+<div class="books-wrapper">
+  <mat-accordion *ngFor="let book of splicedData">
+    <div class="items-wrapper">
+      <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="book-list__title">
+            {{book.title}}
+          </mat-panel-title>
+          <mat-panel-description>
+            {{book.author}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div>
+          <div><mat-icon>short_text</mat-icon><strong>Genre: </strong>{{genre[book.genre]}}</div>
+          <div><mat-icon>room</mat-icon><strong>Country of pulication: </strong>{{book.countryOfPublication}}</div>
+          <div><mat-icon>book</mat-icon><strong>Volume of pages: </strong>{{book.volumeOfPages}}</div>
+        </div>
+        <mat-action-row>
+          <button mat-button color="primary" (click)="onDelete(book)">Delete</button>
+        </mat-action-row>
+
+      </mat-expansion-panel>
+    </div>
+  </mat-accordion>
+<div class="paginator-wrapper">
+  <mat-paginator (page)="pageChangeEvent($event)" [length]="pageLength" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions">
+  </mat-paginator>
+</div>
+</div>
